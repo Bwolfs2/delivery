@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:delivery_flutter_app/models/categoria.dart';
 import 'package:delivery_flutter_app/models/produto.dart';
 import 'package:rxdart/rxdart.dart';
 

@@ -1,3 +1,4 @@
+import 'package:delivery_flutter_app/models/categoria.dart';
 import 'package:delivery_flutter_app/models/produto.dart';
 import 'package:delivery_flutter_app/services/produto_service.dart';
 import 'package:flutter/material.dart';
