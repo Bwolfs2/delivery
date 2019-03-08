@@ -10,6 +10,14 @@ class ProdutoService {
   ProdutoService() {
     collection = Firestore.instance.collection("produtos");
     categoriasColl = Firestore.instance.collection("categoria");
+
+    produtos.listen((item) {
+      print(item);
+    });
+
+    categorias.listen((item) {
+      print(item);
+    });
   }
 
   Future<List<Produto>> getProdutos() async {
@@ -94,7 +102,13 @@ class ProdutoService {
           List<Produto>,
           List<Categoria>>(categorias, produtos, (cat, prod) {
         List<Categoria> listCategorias = cat.map<Categoria>((categoria) {
-          print(categoria.id);
+          // produtos.listen((item) {
+          //   //print("------------------START---------------------");
+
+          //   item.forEach((i) => print(i.categoriaId));
+          //   //print("-------------------END----------------------");
+          // });
+          print("Id Categoria:${categoria.id}");
           categoria.produtos = prod
               .where((produto) => produto.categoriaId == categoria.id)
               .toList();

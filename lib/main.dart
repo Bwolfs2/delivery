@@ -1,4 +1,5 @@
 import 'package:delivery_flutter_app/models/categoria.dart';
+import 'package:delivery_flutter_app/models/condiment.dart';
 import 'package:delivery_flutter_app/models/produto.dart';
 import 'package:delivery_flutter_app/services/produto_service.dart';
 import 'package:flutter/material.dart';
@@ -35,16 +36,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
         appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
           title: Text(widget.title),
         ),
         body: Column(
@@ -60,7 +53,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             itemCount: snapshot.data.length,
                             itemBuilder: (BuildContext context, int index) {
                               Categoria categoria = snapshot.data[index];
-
                               return categoria.produtos != null &&
                                       categoria.produtos.isNotEmpty
                                   ? ExpansionTile(
@@ -80,7 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                         .description ??
                                                     "alguma coisa deu errado"),
                                               ))
-                                          ?.toList())
+                                          ?.toList(),
+                                    )
                                   : ListTile(
                                       title: Text(
                                           categoria.name ?? "algo deu errado"));
@@ -128,10 +121,19 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             FloatingActionButton(
               onPressed: () async {
-                var added = await service.addProduto(Produto(
+                var added = await service.addProduto(
+                  Produto(
                     name: "Coca-Cola",
                     description: "Refrigerante de Cola",
-                    price: 10));
+                    price: 10,
+                    categoriaId: "je3uHZTFcclkQFivZvw2",
+                    condiments: List.generate(
+                      4,
+                      (index) =>
+                          Condiment(name: "Name $index", quantity: index),
+                    ),
+                  ),
+                );
                 if (added) {
                   print("Addded");
                 }
