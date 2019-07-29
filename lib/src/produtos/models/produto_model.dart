@@ -1,15 +1,15 @@
-import 'package:delivery_flutter_app/models/condiment.dart';
 import 'package:uuid/uuid.dart';
+import 'condiment_model.dart';
 
-class Produto {
+class ProdutoModel {
   String id;
   final String name;
   final String description;
   final double price;
   final String categoriaId;
-  final List<Condiment> condiments;
+  final List<CondimentModel> condiments;
 
-  Produto(
+  ProdutoModel(
       {this.id,
       this.name,
       this.description,
@@ -30,13 +30,13 @@ class Produto {
     return map;
   }
 
-  static fromJson(Map<String, dynamic> json) => Produto(
+  static fromJson(Map<String, dynamic> json) => ProdutoModel(
       id: json['id'],
       name: json['name'],
       description: json['description'],
       categoriaId: json["categoria_id"],
       condiments: json["condiments"]
-          ?.map<Condiment>((item) => Condiment.fromJson(item))
+          ?.map<CondimentModel>((item) => CondimentModel.fromJson(item))
           ?.toList(),
       price: json['price']);
 }

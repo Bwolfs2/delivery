@@ -1,12 +1,12 @@
-import 'package:delivery_flutter_app/models/produto.dart';
 import 'package:uuid/uuid.dart';
+import 'produto_model.dart';
 
-class Categoria {
+class CategoriaModel {
   String id;
   final String name;
-  List<Produto> produtos;
+  List<ProdutoModel> produtos;
 
-  Categoria({this.id, this.name, this.produtos}) {
+  CategoriaModel({this.id, this.name, this.produtos}) {
     id = id ?? Uuid().v1();
   }
 
@@ -18,5 +18,5 @@ class Categoria {
   }
 
   static fromJson(Map<String, dynamic> json) =>
-      Categoria(id: json['id'], name: json['nome']);
+      CategoriaModel(id: json['id'], name: json['nome']);
 }

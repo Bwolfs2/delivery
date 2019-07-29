@@ -1,13 +1,14 @@
+import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:delivery_flutter_app/models/categoria.dart';
-import 'package:delivery_flutter_app/models/produto.dart';
+import 'package:delivery_flutter_app/src/produtos/models/categoria_model.dart';
+import 'package:delivery_flutter_app/src/produtos/models/produto_model.dart';
 import 'package:rxdart/rxdart.dart';
 
-class ProdutoService {
-  CollectionReference collection;
+class ProdutoRepository extends Disposable {
+ CollectionReference collection;
   CollectionReference categoriasColl;
 
-  ProdutoService() {
+  ProdutoRepository() {
     collection = Firestore.instance.collection("produtos");
     categoriasColl = Firestore.instance.collection("categoria");
 
@@ -20,12 +21,12 @@ class ProdutoService {
     });
   }
 
-  Future<List<Produto>> getProdutos() async {
+  Future<List<ProdutoModel>> getProdutos() async {
     try {
       var produtos = await collection.getDocuments();
 
       return produtos.documents
-          .map((item) => Produto.fromJson(item.data))
+          .map((item) => ProdutoModel.fromJson(item.data))
           .toList();
     } catch (e) {
       print(e);
@@ -33,29 +34,29 @@ class ProdutoService {
     }
   }
 
-  Future<Produto> getFirstProduto() async {
+  Future<ProdutoModel> getFirstProduto() async {
     try {
       var produtos = await collection.getDocuments();
 
-      return Produto.fromJson(produtos.documents.first.data);
+      return ProdutoModel.fromJson(produtos.documents.first.data);
     } catch (e) {
       print(e);
       return null;
     }
   }
 
-  Future<Produto> getProdutoById(String id) async {
+  Future<ProdutoModel> getProdutoById(String id) async {
     try {
       var produto = await collection.document("$id").get();
 
-      return Produto.fromJson(produto.data);
+      return ProdutoModel.fromJson(produto.data);
     } catch (e) {
       print(e);
       return null;
     }
   }
 
-  Future<bool> addProduto(Produto produto) async {
+  Future<bool> addProduto(ProdutoModel produto) async {
     try {
       collection.document("${produto.id}").setData(produto.toJson());
 
@@ -76,7 +77,7 @@ class ProdutoService {
     }
   }
 
-  Future<bool> updateProduto(Produto produto) async {
+  Future<bool> updateProduto(ProdutoModel produto) async {
     try {
       collection.document("${produto.id}").updateData(produto.toJson());
 
@@ -87,28 +88,21 @@ class ProdutoService {
     }
   }
 
-  Observable<List<Produto>> get produtos =>
+  Observable<List<ProdutoModel>> get produtos =>
       Observable(collection.snapshots().map((item) => item.documents
-          .map<Produto>((item) => Produto.fromJson(item.data))
+          .map<ProdutoModel>((item) => ProdutoModel.fromJson(item.data))
           .toList()));
 
-  Observable<List<Categoria>> get categorias =>
+  Observable<List<CategoriaModel>> get categorias =>
       Observable(categoriasColl.snapshots().map((item) => item.documents
-          .map<Categoria>((item) => Categoria.fromJson(item.data))
+          .map<CategoriaModel>((item) => CategoriaModel.fromJson(item.data))
           .toList()));
 
-  Observable<List<Categoria>> get categoriasJoin => Observable.combineLatest2<
-          List<Categoria>,
-          List<Produto>,
-          List<Categoria>>(categorias, produtos, (cat, prod) {
-        List<Categoria> listCategorias = cat.map<Categoria>((categoria) {
-          // produtos.listen((item) {
-          //   //print("------------------START---------------------");
-
-          //   item.forEach((i) => print(i.categoriaId));
-          //   //print("-------------------END----------------------");
-          // });
-          print("Id Categoria:${categoria.id}");
+  Observable<List<CategoriaModel>> get categoriasJoin => Observable.combineLatest2<
+          List<CategoriaModel>,
+          List<ProdutoModel>,
+          List<CategoriaModel>>(categorias, produtos, (cat, prod) {
+        List<CategoriaModel> listCategorias = cat.map<CategoriaModel>((categoria) {
           categoria.produtos = prod
               .where((produto) => produto.categoriaId == categoria.id)
               .toList();
@@ -121,4 +115,6 @@ class ProdutoService {
   Stream<bool> algumaStream() async* {
     yield true;
   }
+  @override
+  void dispose() {}
 }

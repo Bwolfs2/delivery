@@ -1,11 +1,11 @@
 import 'package:uuid/uuid.dart';
 
-class Condiment {
+class CondimentModel {
   String id;
   final String name;
   final int quantity;
 
-  Condiment({this.name, this.quantity, String id}) {
+  CondimentModel({this.name, this.quantity, String id}) {
     this.id = id ?? Uuid().v1();
   }
 
@@ -18,6 +18,6 @@ class Condiment {
     return map;
   }
 
-  factory Condiment.fromJson(Map<dynamic, dynamic> json) =>
-      Condiment(id: json['id'], name: json['name'], quantity: json["quantity"]);
+  factory CondimentModel.fromJson(Map<dynamic, dynamic> json) =>
+      CondimentModel(id: json['id'], name: json['name'], quantity: json["quantity"]);
 }
