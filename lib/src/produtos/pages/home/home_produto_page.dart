@@ -4,6 +4,9 @@ import 'package:delivery_flutter_app/src/produtos/pages/add/add_produto_page.dar
 import 'package:flutter/material.dart';
 import 'package:radial_button/widget/circle_floating_button.dart';
 
+import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
+
 import '../../produto_module.dart';
 import 'home_produto_bloc.dart';
 
@@ -14,7 +17,9 @@ class HomeProdutoPage extends StatefulWidget {
 
 class _HomeProdutoPageState extends State<HomeProdutoPage> {
   var bloc = ProdutoModule.to.getBloc<HomeProdutoBloc>();
-
+  AudioCache audioCache = new AudioCache();
+  AudioPlayer advancedPlayer = new AudioPlayer();
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,44 +71,50 @@ class _HomeProdutoPageState extends State<HomeProdutoPage> {
           ],
         ),
         floatingActionButton: CircleFloatingButton.floatingActionButton(
-          key: UniqueKey(),
+            key: UniqueKey(),
             items: [
               FloatingActionButton(
-                heroTag: UniqueKey().toString() ,
+                heroTag: UniqueKey().toString(),
                 key: UniqueKey(),
                 backgroundColor: Colors.blueAccent,
-                onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddProdutoPage(),),),
-                  // var added = await bloc.addProduto(
-                  //   ProdutoModel(
-                  //     name: "Coca-Cola",
-                  //     description: "Refrigerante de Cola",
-                  //     price: 10,
-                  //     categoriaId: "je3uHZTFcclkQFivZvw2",
-                  //     condiments: List.generate(
-                  //       4,
-                  //       (index) => CondimentModel(
-                  //           name: "Name $index", quantity: index),
-                  //     ),
-                  //   ),
-                  // );
-                  // if (added) {
-                  //   print("Addded");
-                  // }
-                
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => AddProdutoPage(),
+                  ),
+                ),
+                // var added = await bloc.addProduto(
+                //   ProdutoModel(
+                //     name: "Coca-Cola",
+                //     description: "Refrigerante de Cola",
+                //     price: 10,
+                //     categoriaId: "je3uHZTFcclkQFivZvw2",
+                //     condiments: List.generate(
+                //       4,
+                //       (index) => CondimentModel(
+                //           name: "Name $index", quantity: index),
+                //     ),
+                //   ),
+                // );
+                // if (added) {
+                //   print("Addded");
+                // }
+
                 tooltip: 'Add',
                 child: Icon(Icons.add),
               ), //
               FloatingActionButton(
                 key: UniqueKey(),
-                heroTag: UniqueKey().toString() ,
+                heroTag: UniqueKey().toString(),
                 backgroundColor: Colors.orangeAccent,
-                onPressed: () {},
+                onPressed: () async {
+                         audioCache.play('sounds/tutstus.mp3');   
+                },
                 child: Icon(Icons.category),
                 tooltip: 'Category',
               ),
               FloatingActionButton(
                 key: UniqueKey(),
-                heroTag: UniqueKey().toString() ,
+                heroTag: UniqueKey().toString(),
                 backgroundColor: Colors.redAccent,
                 onPressed: () async {
                   var added = await bloc.addProduto(ProdutoModel(

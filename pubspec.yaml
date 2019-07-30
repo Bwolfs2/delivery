@@ -12,7 +12,8 @@ version: 1.0.0+1
 environment:
   sdk: ">=2.1.0 <3.0.0"
 
-dependencies:
+dependencies:  
+  audioplayers: ^0.13.1
   radial_button: ^0.1.1
   dio: ^2.1.13
   bloc_pattern: ^2.2.3
@@ -51,6 +52,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
    - assets/
+   - assets/sounds/
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
