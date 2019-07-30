@@ -5,10 +5,12 @@ import 'package:delivery_flutter_app/src/produtos/repositories/produto_repositor
 import 'package:rxdart/rxdart.dart';
 
 class HomeProdutoBloc extends BlocBase {
-  ProdutoRepository produtoRepository;
+  final ProdutoRepository produtoRepository;
+
   HomeProdutoBloc(this.produtoRepository);
 
-  Observable<List<CategoriaModel>> get categoriasJoin =>  produtoRepository.categoriasJoin;
+  Observable<List<CategoriaModel>> get categoriasJoin =>
+      produtoRepository.categoriasJoin;
 
   @override
   void dispose() {

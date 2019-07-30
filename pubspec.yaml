@@ -13,12 +13,15 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+  radial_button: ^0.1.1
   dio: ^2.1.13
   bloc_pattern: ^2.2.3
   flutter:
     sdk: flutter
     
-  
+  hidden_drawer_menu:     
+    git:
+      url: https://github.com/Bwolfs2/hidden_drawer_menu         
     
   cloud_firestore: any
   uuid: any
@@ -46,8 +49,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #  - images/a_dot_burr.jpeg
+  assets:
+   - assets/
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

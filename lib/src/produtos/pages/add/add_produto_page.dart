@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class AddPage extends StatefulWidget {
+class AddProdutoPage extends StatefulWidget {
   @override
-  _AddPageState createState() => _AddPageState();
+  _AddProdutoPageState createState() => _AddProdutoPageState();
 }
 
-class _AddPageState extends State<AddPage> {
+class _AddProdutoPageState extends State<AddProdutoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +13,9 @@ class _AddPageState extends State<AddPage> {
         title: Text("Add"),
       ),
       body: Column(
-        children: <Widget>[],
+        children: <Widget>[
+          
+        ],
       ),
     );
   }
