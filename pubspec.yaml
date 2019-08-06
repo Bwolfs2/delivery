@@ -20,10 +20,13 @@ dependencies:
   flutter:
     sdk: flutter
     
-  hidden_drawer_menu:     
+  # hidden_drawer_menu:     
+  #   git:
+  #     url: https://github.com/Bwolfs2/hidden_drawer_menu     
+  hidden_drawer:
     git:
-      url: https://github.com/Bwolfs2/hidden_drawer_menu         
-    
+      url: "https://github.com/Bwolfs2/hidden_drawer"
+
   cloud_firestore: any
   uuid: any
   rxdart: any
@@ -52,7 +55,6 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
    - assets/
-   - assets/sounds/
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

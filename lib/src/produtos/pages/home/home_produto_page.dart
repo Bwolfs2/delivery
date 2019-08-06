@@ -1,4 +1,3 @@
-import 'package:delivery_flutter_app/src/produtos/models/categoria_model.dart';
 import 'package:delivery_flutter_app/src/produtos/models/produto_model.dart';
 import 'package:delivery_flutter_app/src/produtos/pages/add/add_produto_page.dart';
 import 'package:flutter/material.dart';
@@ -17,52 +16,64 @@ class HomeProdutoPage extends StatefulWidget {
 
 class _HomeProdutoPageState extends State<HomeProdutoPage> {
   var bloc = ProdutoModule.to.getBloc<HomeProdutoBloc>();
-  AudioCache audioCache = new AudioCache();
-  AudioPlayer advancedPlayer = new AudioPlayer();
- 
+  var searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Produtos"),
+        centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon:Icon(Icons.refresh),
+            onPressed: (){
+              searchController.text = "";
+              bloc.refreshList();
+                          },
+
+          )
+        ],
+      ),
         body: Column(
           children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: searchController,
+                onChanged: bloc.searchAdd,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                  labelText: "Search",
+                  hintText: "search",
+                  helperText:  "ex:. coca-cola",
+                )
+                  
+              ),
+            ),
             Expanded(
-              child: StreamBuilder<List<CategoriaModel>>(
-                stream: bloc.categoriasJoin,
-                builder: (context, snapshot) {
-                  print(snapshot.data);
+              child: StreamBuilder<List<ProdutoModel>>(
+                stream: bloc.produtos,
+                builder: (context, snapshot) {                  
                   return !snapshot.hasData
-                      ? CircularProgressIndicator()
+                      ? Center(child:CircularProgressIndicator())
                       : ListView.builder(
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context, int index) {
-                            CategoriaModel categoria = snapshot.data[index];
-                            return categoria.produtos != null &&
-                                    categoria.produtos.isNotEmpty
-                                ? ExpansionTile(
-                                    title: Text(
-                                      categoria.name ??
-                                          "alguma coisa deu errado",
-                                      style: TextStyle(
-                                          color: categoria.produtos.length > 0
-                                              ? Colors.red
-                                              : Colors.green),
-                                    ),
-                                    children: categoria?.produtos
-                                        ?.map<Widget>(
-                                          (produto) => ListTile(
-                                            title: Text(produto.name ??
-                                                "alguma coia deu errado"),
-                                            subtitle: Text(
-                                                produto.description ??
-                                                    "alguma coisa deu errado"),
-                                          ),
-                                        )
-                                        ?.toList(),
-                                  )
-                                : ListTile(
-                                    title: Text(
-                                        categoria.name ?? "algo deu errado"),
-                                  );
+                            ProdutoModel produto = snapshot.data[index];
+                            return Card(
+                              margin: EdgeInsets.all(5),
+                              child: ListTile(
+                                leading: CircleAvatar(child: Text(produto.name.substring(0,2).toUpperCase()),),
+                                title: Text(
+                                  produto.name,
+                                ),
+                                subtitle: Text(
+                                  produto.description
+                                ),
+                                trailing: Text(produto.price.toString()),
+                              ),
+                            );
                           },
                         );
                 },
@@ -106,9 +117,7 @@ class _HomeProdutoPageState extends State<HomeProdutoPage> {
                 key: UniqueKey(),
                 heroTag: UniqueKey().toString(),
                 backgroundColor: Colors.orangeAccent,
-                onPressed: () async {
-                         audioCache.play('sounds/tutstus.mp3');   
-                },
+                onPressed: () async {},
                 child: Icon(Icons.category),
                 tooltip: 'Category',
               ),
