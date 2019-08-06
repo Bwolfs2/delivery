@@ -1,5 +1,4 @@
-[![Buy Me A Coffee](https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/BMC-btn-logo.svg)](https://www.buymeacoffee.com/glzQ5B9)
-
+[![Buy Me A Coffee](https://img.shields.io/badge/Donate-Buy%20Me%20A%20Coffee-yellow.svg)](https://www.buymeacoffee.com/bwolf)
 
 # delivery_flutter_app
 
