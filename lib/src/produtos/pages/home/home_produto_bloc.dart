@@ -6,12 +6,7 @@ import 'package:rxdart/rxdart.dart';
 class HomeProdutoBloc extends BlocBase {
   final ProdutoRepository produtoRepository;
 
-  HomeProdutoBloc(this.produtoRepository) {
-    //Escuta Alterações e manda atualizar o controller
-    _searchController.listen((data) {
-      _listController.add(true);
-    });
-  }
+  HomeProdutoBloc(this.produtoRepository);
 
   Future<bool> addProduto(ProdutoModel produtoModel) {
     return produtoRepository.addProduto(produtoModel);
@@ -21,13 +16,13 @@ class HomeProdutoBloc extends BlocBase {
     return produtoRepository.getProdutoById(id);
   }
 
-  final _searchController = BehaviorSubject.seeded("");
+  
   Function(String) get searchAdd => _searchController.add;
 
-  final _listController = BehaviorSubject.seeded(true);
+  final _searchController = BehaviorSubject.seeded("");
 
   //Filtra os produtos
-  Observable<List<ProdutoModel>> get produtos => _listController.stream
+  Observable<List<ProdutoModel>> get produtos => _searchController.stream
       .switchMap((v) => produtoRepository.produtos)
       .map((data) => data
           .where((test) => _searchController?.value == null
@@ -42,8 +37,7 @@ class HomeProdutoBloc extends BlocBase {
 
   @override
   void dispose() {
-    _searchController.close();
-    _listController.close();
+    _searchController.close();    
     super.dispose();
   }
 }
