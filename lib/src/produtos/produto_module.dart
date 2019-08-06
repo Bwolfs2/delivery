@@ -1,3 +1,4 @@
+import 'package:delivery_flutter_app/src/produtos/pages/details/details_bloc.dart';
 import 'package:delivery_flutter_app/src/produtos/repositories/produto_repository.dart';
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'pages/home/home_produto_page.dart';
 class ProdutoModule extends ModuleWidget {
   @override
   List<Bloc> get blocs => [
+        Bloc((i) => DetailsBloc()),
         Bloc((i) => HomeProdutoBloc(i.get<ProdutoRepository>())),
         Bloc((i) => AddProdutoBloc()),
       ];

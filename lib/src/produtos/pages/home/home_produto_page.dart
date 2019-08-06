@@ -1,5 +1,6 @@
 import 'package:delivery_flutter_app/src/produtos/models/produto_model.dart';
 import 'package:delivery_flutter_app/src/produtos/pages/add/add_produto_page.dart';
+import 'package:delivery_flutter_app/src/produtos/pages/details/details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:radial_button/widget/circle_floating_button.dart';
 
@@ -21,42 +22,39 @@ class _HomeProdutoPageState extends State<HomeProdutoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Produtos"),
-        centerTitle: true,
-        actions: <Widget>[
-          IconButton(
-            icon:Icon(Icons.refresh),
-            onPressed: (){
-              searchController.text = "";
-              bloc.refreshList();
-                          },
-
-          )
-        ],
-      ),
+        appBar: AppBar(
+          title: Text("Produtos"),
+          centerTitle: true,
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: () {
+                searchController.text = "";
+                bloc.refreshList();
+              },
+            )
+          ],
+        ),
         body: Column(
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
-                controller: searchController,
-                onChanged: bloc.searchAdd,
+                  controller: searchController,
+                  onChanged: bloc.searchAdd,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                  labelText: "Search",
-                  hintText: "search",
-                  helperText:  "ex:. coca-cola",
-                )
-                  
-              ),
+                    labelText: "Search",
+                    hintText: "search",
+                    helperText: "ex:. coca-cola",
+                  )),
             ),
             Expanded(
               child: StreamBuilder<List<ProdutoModel>>(
                 stream: bloc.produtos,
-                builder: (context, snapshot) {                  
+                builder: (context, snapshot) {
                   return !snapshot.hasData
-                      ? Center(child:CircularProgressIndicator())
+                      ? Center(child: CircularProgressIndicator())
                       : ListView.builder(
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -64,13 +62,21 @@ class _HomeProdutoPageState extends State<HomeProdutoPage> {
                             return Card(
                               margin: EdgeInsets.all(5),
                               child: ListTile(
-                                leading: CircleAvatar(child: Text(produto.name.substring(0,2).toUpperCase()),),
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .push(MaterialPageRoute(builder: (_) {
+                                    return DetailsPage();
+                                  }));
+                                },
+                                leading: CircleAvatar(
+                                  child: Text(produto.name
+                                      .substring(0, 2)
+                                      .toUpperCase()),
+                                ),
                                 title: Text(
                                   produto.name,
                                 ),
-                                subtitle: Text(
-                                  produto.description
-                                ),
+                                subtitle: Text(produto.description),
                                 trailing: Text(produto.price.toString()),
                               ),
                             );
