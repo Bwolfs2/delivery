@@ -1,12 +1,9 @@
 import 'package:delivery_flutter_app/src/produtos/models/produto_model.dart';
 import 'package:delivery_flutter_app/src/produtos/pages/add/add_produto_page.dart';
 import 'package:delivery_flutter_app/src/produtos/pages/details/details_page.dart';
+import 'package:delivery_flutter_app/src/produtos/widgets/produto_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:radial_button/widget/circle_floating_button.dart';
-
-import 'package:audioplayers/audio_cache.dart';
-import 'package:audioplayers/audioplayers.dart';
-
 import '../../produto_module.dart';
 import 'home_produto_bloc.dart';
 
@@ -17,7 +14,6 @@ class HomeProdutoPage extends StatefulWidget {
 
 class _HomeProdutoPageState extends State<HomeProdutoPage> {
   var bloc = ProdutoModule.to.getBloc<HomeProdutoBloc>();
-  var searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +24,7 @@ class _HomeProdutoPageState extends State<HomeProdutoPage> {
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.refresh),
-              onPressed: () {
-                searchController.text = "";
+              onPressed: () {              
                 bloc.refreshList();
               },
             )
@@ -40,7 +35,7 @@ class _HomeProdutoPageState extends State<HomeProdutoPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
-                  controller: searchController,
+                  controller: bloc.searchController,
                   onChanged: bloc.searchAdd,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -59,6 +54,7 @@ class _HomeProdutoPageState extends State<HomeProdutoPage> {
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context, int index) {
                             ProdutoModel produto = snapshot.data[index];
+                            //return ProdutoCardWidget();
                             return Card(
                               margin: EdgeInsets.all(5),
                               child: ListTile(
@@ -123,9 +119,11 @@ class _HomeProdutoPageState extends State<HomeProdutoPage> {
                 key: UniqueKey(),
                 heroTag: UniqueKey().toString(),
                 backgroundColor: Colors.orangeAccent,
-                onPressed: () async {},
+                onPressed: () {
+                 
+                },
                 child: Icon(Icons.category),
-                tooltip: 'Category',
+                tooltip: 'Teste Model',
               ),
               FloatingActionButton(
                 key: UniqueKey(),

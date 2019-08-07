@@ -10,7 +10,7 @@ class _DetailsPageState extends State<DetailsPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        return Future.value(true);
+        return Future.value(false);
       },
       child: Scaffold(
         appBar: AppBar(
@@ -18,6 +18,12 @@ class _DetailsPageState extends State<DetailsPage> {
         ),
         body: Column(
           children: <Widget>[
+            RaisedButton(
+              onPressed: (){
+                Navigator.pop(context);
+              },
+              child: Text("Fechar"),
+            ),
             Text("Detalhe Legal"),
             Text("Detalhe Legal 1"),
             Text("Detalhe Legal 2"),

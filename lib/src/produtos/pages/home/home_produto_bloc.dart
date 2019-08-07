@@ -1,11 +1,12 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:delivery_flutter_app/src/produtos/models/produto_model.dart';
 import 'package:delivery_flutter_app/src/produtos/repositories/produto_repository.dart';
+import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 class HomeProdutoBloc extends BlocBase {
   final ProdutoRepository produtoRepository;
-
+  var searchController = TextEditingController();
   HomeProdutoBloc(this.produtoRepository);
 
   Future<bool> addProduto(ProdutoModel produtoModel) {
@@ -32,6 +33,7 @@ class HomeProdutoBloc extends BlocBase {
           .toList());
 
   void refreshList() {
+    searchController.clear();
     _searchController.add(null);
   }
 
