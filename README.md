@@ -1,3 +1,5 @@
+[![Buy Me A Coffee](https://img.shields.io/badge/Donate-Buy%20Me%20A%20Coffee-yellow.svg)](https://www.buymeacoffee.com/bwolf)
+
 # delivery_flutter_app
 
 A new Flutter project.
