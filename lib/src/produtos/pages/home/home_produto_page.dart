@@ -2,6 +2,7 @@ import 'package:delivery_flutter_app/src/produtos/models/produto_model.dart';
 import 'package:delivery_flutter_app/src/produtos/pages/add/add_produto_page.dart';
 import 'package:delivery_flutter_app/src/produtos/pages/details/details_page.dart';
 import 'package:delivery_flutter_app/src/produtos/widgets/produto_card_widget.dart';
+import 'package:delivery_flutter_app/src/teste/teste_module.dart';
 import 'package:flutter/material.dart';
 import 'package:radial_button/widget/circle_floating_button.dart';
 import '../../produto_module.dart';
@@ -129,18 +130,24 @@ class _HomeProdutoPageState extends State<HomeProdutoPage> {
                 key: UniqueKey(),
                 heroTag: UniqueKey().toString(),
                 backgroundColor: Colors.redAccent,
-                onPressed: () async {
-                  var added = await bloc.addProduto(ProdutoModel(
-                      name: "Fanta-Cola",
-                      description: "Refrigerante de Laranja",
-                      price: 10,
-                      id: "f01cd490-3260-11e9-c6c4-a1124cd55f20"));
-                  if (added) {
-                    print("Addded");
-                  }
+                onPressed: (){
+                   Navigator.of(context)
+                                      .push(MaterialPageRoute(builder: (_) {
+                                    return TesteModule();
+                                  }));
                 },
-                child: Icon(Icons.remove),
-                tooltip: 'Remove',
+                // onPressed: () async {
+                //   var added = await bloc.addProduto(ProdutoModel(
+                //       name: "Fanta-Cola",
+                //       description: "Refrigerante de Laranja",
+                //       price: 10,
+                //       id: "f01cd490-3260-11e9-c6c4-a1124cd55f20"));
+                //   if (added) {
+                //     print("Addded");
+                //   }
+                // },
+                child: Icon(Icons.menu),
+                tooltip: 'Bloc Sem Streams',
               ),
             ],
             color: Colors.tealAccent,
