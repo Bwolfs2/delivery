@@ -24,7 +24,7 @@ class TesteBloc extends BlocBase {
   }
 
   @override
-  void dispose() {
+  void dispose() {   
     super.dispose();
   }
 }
