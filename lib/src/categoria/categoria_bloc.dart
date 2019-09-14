@@ -1,9 +1,21 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:rxdart/rxdart.dart';
 
 class CategoriaBloc extends BlocBase {
-  //dispose will be called automatically by closing its streams
+
+  CategoriaBloc(){
+    percent = Observable.combineLatest2<bool , bool , double>(nomeController, emailController, (a,b)=> a && b ? 300 : a || b ? 150 : 0);
+  }
+
+  final nomeController = BehaviorSubject.seeded(false);
+  final emailController = BehaviorSubject.seeded(false);
+
+  Observable<double> percent;
+ 
   @override
-  void dispose() {
+  void dispose() {    
+    nomeController.close();
+    emailController.close();
     super.dispose();
   }
 }

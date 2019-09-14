@@ -1,3 +1,5 @@
+import 'package:delivery_flutter_app/src/categoria/categoria_bloc.dart';
+import 'package:delivery_flutter_app/src/categoria/categoria_module.dart';
 import 'package:flutter/material.dart';
 
 class CategoriaPage extends StatefulWidget {
@@ -6,98 +8,105 @@ class CategoriaPage extends StatefulWidget {
 }
 
 class _CategoriaPageState extends State<CategoriaPage> {
-  double width = 0;
-  var nome = false;
-  var email = false;
+  CategoriaBloc bloc = CategoriaModule.to.getBloc();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(      
+    return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(25.0),
-        child: Column(        
+        child: Column(
           children: <Widget>[
-            TextField(
+            TextFormField(
+              autovalidate: true,
               decoration: InputDecoration(labelText: "Nome"),
-              onChanged: (value) {
-                setState(() {
-                  if (value.length > 2 && !nome) {
-                    width += 150;
-                    nome = true;
-                  } else {
-                    if (nome && value.length <= 2) {
-                      width -= 150;
-                      nome = false;
-                    }
-                  }
-                });
+              validator: (value) {
+                if (value.length > 2) {
+                  bloc.nomeController.add(true);
+                  return null;
+                } else {
+                  bloc.nomeController.add(false);
+                  return "O campo deve conter mais de 2 caracteres";
+                }
               },
             ),
             SizedBox(
               height: 25,
             ),
-            TextField(
+            TextFormField(
+              autovalidate: true,
               decoration: InputDecoration(labelText: "Email"),
-              onChanged: (value) {
-                setState(() {
-                  if (value.length > 2 && !email) {
-                    width += 150;
-                    email = true;
-                  } else {
-                    if (email && value.length <= 2) {
-                      width -= 150;
-                      email = false;
-                    }
-                  }
-                });
+              validator: (value) {
+                if (value.length > 2) {
+                  bloc.emailController.add(true);
+                  return null;
+                } else {
+                  bloc.emailController.add(false);
+                  return "O campo deve conter mais de 2 caracteres";
+                }
               },
             ),
-             SizedBox(
+            SizedBox(
               height: 25,
             ),
-            Container(
-              width: 300,
-              child: Stack(
-                children: <Widget>[
-                  Container(
-                    color: Colors.grey,
-                    height: 60,
-                    alignment: Alignment.center,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                     
-                    ),
-                  ),
-                  Row(
+            StreamBuilder<double>(
+              stream: bloc.percent,
+              initialData: 0,
+              builder: (context, snapshot) {
+                return Container(
+                  width: 300,
+                  child: Stack(
                     children: <Widget>[
-                      AnimatedContainer(
-                        duration: Duration(seconds: 1),
-                        width: width,
-                        height: 60,
-                        color: Color(0xff14ff65),
-                      ),
-                    ],
-                  ),
-                  InkWell(
-                    onTap: width == 300 ? (){
-                      print("Teste");
-                    } : null,
-                    child: Center(
-                      child: Container(
+                      Container(
+                        color: Colors.grey,
                         height: 60,
                         alignment: Alignment.center,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[Text("Login", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25),)],
                         ),
                       ),
-                    ),
-                  )
-                ],
-              ),
-            )
+                      Row(
+                        children: <Widget>[
+                          AnimatedContainer(
+                            duration: Duration(seconds: 1),
+                            width: snapshot?.data ?? 0,
+                            height: 60,
+                            color: Color(0xff14ff65),
+                          )
+                        ],
+                      ),
+                      InkWell(
+                        onTap: (snapshot?.data ?? 0) == 300
+                            ? () {
+                                print("Teste");
+                              }
+                            : null,
+                        child: Center(
+                          child: Container(
+                            height: 60,
+                            alignment: Alignment.center,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  "Login",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),
